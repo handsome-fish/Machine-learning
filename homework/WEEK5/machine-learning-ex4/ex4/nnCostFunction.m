@@ -82,7 +82,21 @@ J = J/m;
 %正则化J,偏置不参与
 J = J + lambda/2/m*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)))
 
+%初始化并计算Delta
+Delta1 = zeros(size(Theta1));
+Delta2 = zeros(size(Theta2));
 
+%反向传播
+for i = 1:m
+  delta3 = H(i,:)' - yVec(i,:)';
+  delta2 = (Theta2'*delta3)(2:end).*sigmoidGradient(Z2(i,:)');
+  Delta2 = Delta2 + delta3*[ones(1) A2(i,:)];
+  Delta1 = Delta1 + delta2*[ones(1) X(i,:)];
+end
+
+%求梯度
+Theta1_grad = Delta1/m;
+Theta2_grad = Delta2/m;
 
 % -------------------------------------------------------------
 
