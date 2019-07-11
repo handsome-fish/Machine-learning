@@ -98,6 +98,10 @@ end
 Theta1_grad = Delta1/m;
 Theta2_grad = Delta2/m;
 
+%正则化梯度,偏置不参与
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + lambda/m * Theta1(:,2:end);
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + lambda/m * Theta2(:,2:end);
+
 % -------------------------------------------------------------
 
 % =========================================================================
