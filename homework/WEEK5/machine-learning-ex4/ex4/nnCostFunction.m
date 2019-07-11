@@ -67,7 +67,7 @@ A2 = sigmoid(Z2);
 Z3 = [ones(m, 1) A2]*Theta2';
 H = sigmoid(Z3);
 
-%将y化为矩阵yVec
+%将y化为矩阵yVec,维度和H一样
 yVec = zeros(m,num_labels);
 for i = 1:m
   yVec(i,y(i)) = 1;
@@ -78,6 +78,11 @@ for i = 1:m
   J = J + sum(-1*yVec(i,:).*log(H(i,:)) - (1-yVec(i,:)).*log(1-H(i,:)));
 end
 J = J/m;
+
+%正则化J,偏置不参与
+J = J + lambda/2/m*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)))
+
+
 
 % -------------------------------------------------------------
 
