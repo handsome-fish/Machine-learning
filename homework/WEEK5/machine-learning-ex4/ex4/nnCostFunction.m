@@ -61,24 +61,23 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+%计算预测输出,H维度为m*k
+Z2 = [ones(m, 1) X]*Theta1';
+A2 = sigmoid(Z2);
+Z3 = [ones(m, 1) A2]*Theta2';
+H = sigmoid(Z3);
 
+%将y化为矩阵yVec
+yVec = zeros(m,num_labels);
+for i = 1:m
+  yVec(i,y(i)) = 1;
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%计算J
+for i = 1:m
+  J = J + sum(-1*yVec(i,:).*log(H(i,:)) - (1-yVec(i,:)).*log(1-H(i,:)));
+end
+J = J/m;
 
 % -------------------------------------------------------------
 
