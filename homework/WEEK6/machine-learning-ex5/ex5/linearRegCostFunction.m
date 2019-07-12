@@ -19,8 +19,12 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 %计算cost,正则化除去θ0
-J = 1/(2*m) * sum((X*theta - y).^2) + lambda/(2*m) * sum(theta(2:end).^2);
+J = 1/(2*m) * sum((X*theta-y).^2) + lambda/(2*m) * sum(theta(2:end).^2);
 
+%计算grad,正则化θ0和其他分开计算
+grad(1) = 1/m * (X(:,1)'*(X*theta-y));
+grad(2:end) = 1/m * (X(:,2:end)'*(X*theta-y)) + ...
+                lambda/m * theta(2:end);
 
 % =========================================================================
 
