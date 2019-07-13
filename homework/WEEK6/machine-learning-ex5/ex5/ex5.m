@@ -223,6 +223,8 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+
 %% =========== Part 9(Ungraded): Computing test set error =====================
 %  For this optional (ungraded) exercise, you should compute the test error
 %  using the best value of ¦Ë you found. In our cross validation, we obtained a
@@ -236,7 +238,53 @@ error_test = linearRegCostFunction(X_poly_test,ytest,theta_best,0);
 fprintf('lambda\tTest Error\n');
 fprintf(' %f\t%f\n', lambda_best, error_test);
 
+%% =========== Part 10(Ungraded): Plotting learning   =========================
+%% =========== curves with randomly selected examples =========================
+%  Concretely, to determine the training error and cross validation error for
+%  i examples, you should first randomly select i examples from the training set
+%  and i examples from the cross validation set. You will then learn the 
+%  parameters ¦È using the randomly chosen training set and evaluate the 
+%  parameters ¦È on the randomly chosen training set and cross validation set. 
+%  The above steps should then be repeated multiple times (say 50) and the 
+%  averaged error should be used to determine the training error and cross 
+%  validation error for i examples.
+%
+%  For this optional (ungraded) exercise, you should implement the above
+%  strategy for computing the learning curves. For reference, figure 10 shows the
+%  learning curve we obtained for polynomial regression with ¦Ë = 0.01.
+%
 
+figure(7);
+lambda = 0.01;
+error_train = zeros(m, 1);
+error_val   = zeros(m, 1);
+repeat = 50;
 
+for i = 1:repeat,
+  for j = 1:m,
+    index_train = randperm(m,j);
+    X_poly_rand = X_poly(index_train,:);
+    y_rand = y(index_train,:);
+    index_val = randperm(m,j);
+    X_poly_val_rand = X_poly_val(index_val,:);
+    yval_rand = yval(index_val,:);
+    
+    theta = trainLinearReg(X_poly_rand,y_rand,lambda);
+    error_train(j) += linearRegCostFunction(X_poly_rand,y_rand,theta,0);
+    error_val(j) += linearRegCostFunction(X_poly_val_rand,yval_rand,theta,0);
+  endfor
+endfor
+error_train = error_train/repeat;
+error_val = error_val/repeat;
 
-
+plot(1:m, error_train, 1:m, error_val);
+title(sprintf('Polynomial Regression Learning Curve with randomly selected examples (lambda = %f)', lambda));
+xlabel('Number of randomly selected training examples')
+ylabel('Error')
+axis([0 13 0 100])
+legend('Train', 'Cross Validation')
+fprintf('Polynomial Regression (lambda = %f)\n\n', lambda);
+fprintf('# Training Examples\tTrain Error\tCross Validation Error\n');
+for i = 1:m
+    fprintf('  \t%d\t\t%f\t%f\n', i, error_train(i), error_val(i));
+end
