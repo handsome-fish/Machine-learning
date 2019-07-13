@@ -20,7 +20,7 @@ X_poly = bsxfun(@rdivide, X_poly, sigma);
 X_poly = [ones(size(x, 1), 1) X_poly];
 
 % Plot
-plot(x, X_poly * theta, '--', 'LineWidth', 2)
+plot(x, X_poly * theta, '--', 'LineWidth', 2);
 
 % Hold off to the current figure
 hold off
