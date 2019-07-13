@@ -223,3 +223,20 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+%% =========== Part 9(Ungraded): Computing test set error =====================
+%  For this optional (ungraded) exercise, you should compute the test error
+%  using the best value of λ you found. In our cross validation, we obtained a
+%  test error of 3.8599 for λ = 3.
+%
+
+%由figure(6)得到lambda=3大概是最好的结果
+lambda_best = 3;
+theta_best = trainLinearReg(X_poly,y,lambda_best);
+error_test = linearRegCostFunction(X_poly_test,ytest,theta_best,0);
+fprintf('lambda\tTest Error\n');
+fprintf(' %f\t%f\n', lambda_best, error_test);
+
+
+
+
+
