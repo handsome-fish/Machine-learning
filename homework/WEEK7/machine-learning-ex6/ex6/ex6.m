@@ -52,6 +52,7 @@ fprintf('\nTraining Linear SVM ...\n')
 % boundary varies (e.g., try C = 1000)
 C = 1;
 model = svmTrain(X, y, C, @linearKernel, 1e-3, 20);
+figure(1);
 visualizeBoundaryLinear(X, y, model);
 
 fprintf('Program paused. Press enter to continue.\n');
@@ -84,6 +85,7 @@ fprintf('Loading and Visualizing Data ...\n')
 load('ex6data2.mat');
 
 % Plot training data
+figure(2);
 plotData(X, y);
 
 fprintf('Program paused. Press enter to continue.\n');
@@ -123,6 +125,7 @@ fprintf('Loading and Visualizing Data ...\n')
 load('ex6data3.mat');
 
 % Plot training data
+figure(3);
 plotData(X, y);
 
 fprintf('Program paused. Press enter to continue.\n');
