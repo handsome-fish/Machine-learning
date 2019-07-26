@@ -23,11 +23,30 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+steps = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+cost = 1000;
+op_C = 0.01;
+op_sigma = 0.01;
 
+for i = 1:8,
+  for j = 1:8,
 
-
-
-
+    model= svmTrain(X, y, steps(i), @(x1, x2) gaussianKernel(x1, x2, steps(j)));
+    predictions = svmPredict(model, Xval);
+    temp_cost = mean(double(predictions ~= yval));
+    if cost > temp_cost,
+      op_C = steps(i);
+      op_sigma = steps(j);
+      cost = temp_cost;
+    endif
+    fprintf('Step: %d\tC: %f\tsigma: %f\ttemp_cost: %f\tnew_cost: %f\n',
+      (i-1)*8+j, steps(i), steps(j), temp_cost, cost);    
+    j += 1;
+  endfor
+  i += 1;
+endfor
+C = op_C;
+sigma = op_sigma;
 
 % =========================================================================
 
