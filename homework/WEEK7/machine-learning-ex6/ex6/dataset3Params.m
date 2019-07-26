@@ -22,7 +22,7 @@ sigma = 0.3;
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
-
+x1 = [1 2 1]; x2 = [0 4 -1];
 steps = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 cost = 1000;
 op_C = 0.01;
@@ -41,9 +41,9 @@ for i = 1:8,
     endif
     fprintf('Step: %d\tC: %f\tsigma: %f\ttemp_cost: %f\tnew_cost: %f\n',
       (i-1)*8+j, steps(i), steps(j), temp_cost, cost);    
-    j += 1;
+%    j += 1;
   endfor
-  i += 1;
+%  i += 1;
 endfor
 C = op_C;
 sigma = op_sigma;
